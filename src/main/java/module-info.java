@@ -1,4 +1,5 @@
 module com.sadturtleman {
+    requires transitive javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
 
