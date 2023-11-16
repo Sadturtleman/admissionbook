@@ -9,7 +9,12 @@ import javafx.fxml.FXML;
 public class LoginController {
 
     @FXML
-    private void switchToSecondary() throws IOException {
+    private void login() throws IOException {
         App.setRoot("secondary");
+    }
+
+    @FXML
+    private void signUp() throws IOException {
+        System.out.println(1);
     }
 }
