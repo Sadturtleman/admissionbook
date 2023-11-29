@@ -2,6 +2,7 @@ package com.sadturtleman.controller;
 
 import java.io.IOException;
 
+import com.sadturtleman.App;
 import com.sadturtleman.model.Account;
 
 import javafx.fxml.FXML;
@@ -17,7 +18,8 @@ public class LoginController {
     private void login() throws IOException {
         Account account = new Account(Id.getText(), Password.getText());
         if (account.isValidAccount()){
-            System.out.println("로그인 성공");
+            App.setRoot("MainView");
+            App.setSize(600, 400);
         }
         else{
             System.out.println("계정이 없습니다.");
