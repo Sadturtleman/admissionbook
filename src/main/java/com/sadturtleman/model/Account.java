@@ -1,6 +1,7 @@
 package com.sadturtleman.model;
 
 import java.util.List;
+import java.util.Random;
 
 public class Account {
 
@@ -27,7 +28,7 @@ public class Account {
     }
 
     public void signUp(){
-        Jdbc.getinstance().addValue(id, password);
+        Jdbc.getinstance().addValue(id, password, String.valueOf(new Random().nextInt(10000)));
     }
     
     public String getusercode(){

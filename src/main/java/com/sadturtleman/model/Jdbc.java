@@ -45,13 +45,13 @@ public class Jdbc {
         return ls;
     }
 
-    public void addValue(String id, String pw){
+    public void addValue(String id, String pw, String usercode){
         try {
             connect();
             PreparedStatement pstm = conn.prepareStatement("INSERT INTO account VALUES(?, ?, ?)");
             pstm.setString(1, id);
             pstm.setString(2, pw);
-            pstm.setString(3, pw);
+            pstm.setString(3, usercode);
 
             pstm.execute();
 
