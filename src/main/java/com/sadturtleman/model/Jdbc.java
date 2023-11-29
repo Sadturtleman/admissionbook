@@ -27,45 +27,53 @@ public class Jdbc {
     private Jdbc(){}
 
     public List<String[]> selectAll(){
-        List<String[]> ls = new ArrayList<>();
 
-        try {
-            connect();
-            rs = stmt.executeQuery("select * from account");
+        if (connect()){
+            List<String[]> ls = new ArrayList<>();
+            try {
+                rs = stmt.executeQuery("select * from account");
 
-            while (rs.next()) {
-                ls.add(new String[]{rs.getString(1), rs.getString(2), rs.getString(3)});
-            }
+                while (rs.next()) {
+                    ls.add(new String[]{
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3)});
+                }
 
-            close();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+                close();
+            } catch (SQLException e) {e.printStackTrace();}
+            return ls;
         }
-
-        return ls;
+        return null;
     }
 
-    public void addValue(String id, String pw, String usercode){
-        try {
-            connect();
-            PreparedStatement pstm = conn.prepareStatement("INSERT INTO account VALUES(?, ?, ?)");
-            pstm.setString(1, id);
-            pstm.setString(2, pw);
-            pstm.setString(3, usercode);
+    public boolean addValue(String id, String pw, String usercode){
+        if (connect()){
+            try {
+                PreparedStatement pstm = conn.prepareStatement("INSERT INTO account VALUES(?, ?, ?)");
+                pstm.setString(1, id);
+                pstm.setString(2, pw);
+                pstm.setString(3, usercode);
 
-            pstm.execute();
+                pstm.execute();
 
-            close();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+                close();
+            } catch (SQLException e) {
+                return false;
+            }            
         }
+        return true;
     }
 
-    private void connect() throws ClassNotFoundException, SQLException{
-        Class.forName("org.postgresql.Driver");
-        conn = DriverManager.getConnection(url, user, passwd);
-        stmt = conn.createStatement();
-        System.out.println("연결 성공");
+    private boolean connect(){
+        try {
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(url, user, passwd);
+            stmt = conn.createStatement();            
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     private void close(){
